@@ -13,17 +13,31 @@ target_include_directories(rplidar_scanner
         $ENV{RPLIDAR_SDK_PATH}/src
         )
 
-target_sources(rplidar_scanner
-        PUBLIC
+SET(DEFAULT_SOURCES
         $ENV{RPLIDAR_SDK_PATH}/src/sl_lidar_driver.cpp
-        $ENV{RPLIDAR_SDK_PATH}/src/arch/macOS/net_serial.cpp
-        $ENV{RPLIDAR_SDK_PATH}/src/arch/macOS/net_socket.cpp
-        $ENV{RPLIDAR_SDK_PATH}/src/arch/macOS/timer.cpp
         $ENV{RPLIDAR_SDK_PATH}/src/hal/thread.cpp
         $ENV{RPLIDAR_SDK_PATH}/src/sl_crc.cpp
         $ENV{RPLIDAR_SDK_PATH}/src/sl_serial_channel.cpp
         $ENV{RPLIDAR_SDK_PATH}/src/sl_tcp_channel.cpp
         $ENV{RPLIDAR_SDK_PATH}/src/sl_udp_channel.cpp
+        )
+if(APPLE)
+        SET(ARCH_SOURCES
+        $ENV{RPLIDAR_SDK_PATH}/src/arch/macOS/net_serial.cpp
+        $ENV{RPLIDAR_SDK_PATH}/src/arch/macOS/net_socket.cpp
+        $ENV{RPLIDAR_SDK_PATH}/src/arch/macOS/timer.cpp
+        )
+else()
+    SET(ARCH_SOURCES
+            $ENV{RPLIDAR_SDK_PATH}/src/arch/linux/net_serial.cpp
+            $ENV{RPLIDAR_SDK_PATH}/src/arch/linux/net_socket.cpp
+            $ENV{RPLIDAR_SDK_PATH}/src/arch/linux/timer.cpp
+            )
+endif()
+target_sources(rplidar_scanner
+        PUBLIC
+        ${DEFAULT_SOURCES}
+        ${ARCH_SOURCES}
 
         )
 target_link_libraries(rplidar_scanner PUBLIC pthread stdc++)
