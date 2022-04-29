@@ -79,8 +79,7 @@ lidar_st lidar_init(lidar_config_st config) {
     }
 
     if (!lidar.connected) {
-        (fprintf(stderr, "Error, cannot bind to the specified serial port %s.\n", lidar.port));
-        (fprintf(stderr, "Error, cannot connect to the specified ip addr %s.\n", lidar.baudrate));
+        (fprintf(stderr, "Error, cannot bind to the specified serial port %s with baurdrate %d.\n", lidar.port, lidar.baudrate));
         return lidar;
     }
 

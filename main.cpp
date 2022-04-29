@@ -10,7 +10,6 @@
     const char * port = "/dev/ttyUSB0";
 #endif
 int main() {
-    printf("hello");
     lidar_st lidar = lidar_init({port, 115200});
     lidar_scan(&lidar);
     return 0;
