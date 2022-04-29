@@ -62,6 +62,4 @@ target_link_libraries(rplidar PUBLIC pthread stdc++)
 
 if(APPLE)
     add_compile_definitions(_MACOS)
-else()
-    add_compile_definitions(__GNUC__)
 endif()
