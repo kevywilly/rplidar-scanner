@@ -4,9 +4,18 @@ project(rplidar_scanner)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(rplidar_scanner main.cpp)
+add_executable(rplidar_scanner main.cpp src/lidar/lidar.h)
+
+add_library(rplidar SHARED main.cpp src/lidar/lidar.h )
 
 target_include_directories(rplidar_scanner
+        PUBLIC
+        $ENV{RPLIDAR_SDK_PATH}
+        $ENV{RPLIDAR_SDK_PATH}/include
+        $ENV{RPLIDAR_SDK_PATH}/src
+        )
+
+target_include_directories(rplidar
         PUBLIC
         $ENV{RPLIDAR_SDK_PATH}
         $ENV{RPLIDAR_SDK_PATH}/include
@@ -38,10 +47,21 @@ target_sources(rplidar_scanner
         PUBLIC
         ${DEFAULT_SOURCES}
         ${ARCH_SOURCES}
-
         )
+target_sources(rplidar
+        PUBLIC
+        ${DEFAULT_SOURCES}
+        ${ARCH_SOURCES}
+        )
+
 target_link_libraries(rplidar_scanner PUBLIC pthread stdc++)
 
+target_link_libraries(rplidar PUBLIC pthread stdc++)
+
+
+
 if(APPLE)
-add_compile_definitions(_MACOS)
+    add_compile_definitions(_MACOS)
+else()
+    add_compile_definitions(__GNUC__)
 endif()
