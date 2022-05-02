@@ -125,11 +125,17 @@ int lidar_scan(lidar_st * lidar) {
         if (SL_IS_OK(op_result)) {
             drv->ascendScanData(nodes, count);
             for (int pos = 0; pos < (int)count ; ++pos) {
+                printf("%03.2f,%08.2f,%d\n",
+                       (nodes[pos].angle_z_q14 * 90.f) / 16384.f,
+                       nodes[pos].dist_mm_q2/4.0f,
+                       nodes[pos].quality >> SL_LIDAR_RESP_MEASUREMENT_QUALITY_SHIFT);
+                /*
                 printf("%s theta: %03.2f Dist: %08.2f Q: %d \n",
                        (nodes[pos].flag & SL_LIDAR_RESP_HQ_FLAG_SYNCBIT) ?"S ":"  ",
                        (nodes[pos].angle_z_q14 * 90.f) / 16384.f,
                        nodes[pos].dist_mm_q2/4.0f,
                        nodes[pos].quality >> SL_LIDAR_RESP_MEASUREMENT_QUALITY_SHIFT);
+                       */
             }
         }
 
